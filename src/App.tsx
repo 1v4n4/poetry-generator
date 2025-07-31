@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Autocomplete,
   TextField,
@@ -69,6 +69,17 @@ export const PoetryGenerator = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter" && !loading && selectedTopics.length > 0) {
+        generatePoem();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [loading, selectedTopics]);
 
   return (
     <Box
