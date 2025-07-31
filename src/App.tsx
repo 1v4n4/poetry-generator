@@ -46,7 +46,7 @@ export const PoetryGenerator = () => {
 
     const subject = encodeURIComponent("Bećirova poezija za tebe");
     const body = encodeURIComponent(
-      `Ljubavi\n\nNeka ti Neka ti poezija uljepša dan:\n\n${editablePoem}\n\nSrdačno,\n${name}\n\n\n Posjeti stihoklepac.me i sastavi svoje stihove!`
+      `Ljubavi\n\nNeka ti poezija uljepša dan:\n\n${editablePoem}\n\nIz dubine duše,\n${name}\n\n\n Posjeti stihoklepac.me i sastavi svoje stihove!`
     );
 
     window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
