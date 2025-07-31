@@ -115,7 +115,7 @@ export const PoetryGenerator = () => {
           multiple
           options={TOPICS}
           value={selectedTopics}
-          onChange={(event, newValue) => {
+          onChange={(_, newValue) => {
             if (newValue.length <= MAX_SELECTION) setSelectedTopics(newValue);
           }}
           renderInput={(params) => (
