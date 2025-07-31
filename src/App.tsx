@@ -31,7 +31,26 @@ export const PoetryGenerator = () => {
   const [poem, setPoem] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const { savePoem } = useSavePoem();
+  const [editablePoem, setEditablePoem] = useState(poem);
+
+  useEffect(() => {
+    setEditablePoem(poem);
+  }, [poem]);
+
+  const handleSendEmail = () => {
+    if (!email) return alert("Unesite email adresu");
+    if (!editablePoem) return alert("Morate generisati poeziju.");
+
+    const subject = encodeURIComponent("Bećirova poezija za tebe");
+    const body = encodeURIComponent(
+      `Ljubavi\n\nNeka ti Neka ti poezija uljepša dan:\n\n${editablePoem}\n\nSrdačno,\n${name}\n\n\n Posjeti stihoklepac.me i sastavi svoje stihove!`
+    );
+
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+  };
 
   const generatePoem = async () => {
     if (selectedTopics.length === 0) return;
@@ -68,35 +87,36 @@ export const PoetryGenerator = () => {
     }
   };
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Enter" && !loading && selectedTopics.length > 0) {
-        generatePoem();
-      }
-    };
+  // Uncomment to enable Enter key to generate poem
+  // useEffect(() => {
+  //   const handleKeyDown = (e: KeyboardEvent) => {
+  //     if (e.key === "Enter" && !loading && selectedTopics.length > 0) {
+  //       generatePoem();
+  //     }
+  //   };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [loading, selectedTopics]);
+  //   window.addEventListener("keydown", handleKeyDown);
+  //   return () => window.removeEventListener("keydown", handleKeyDown);
+  // }, [loading, selectedTopics]);
 
   return (
     <Box
       sx={{
-        height: "90vh", // fixed height, not minHeight
+        height: "90vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         bgcolor: "background.default",
         color: "text.primary",
-        p: 1, // reduce padding from 2 to 1
-        overflow: "auto", // allow scroll only if needed
+        p: 1,
+        overflow: "auto",
       }}
     >
       <Box
         sx={{
           width: "100%",
           maxWidth: 720,
-          p: 3, // reduced padding from 4 to 3
+          p: 3,
           bgcolor: "background.paper",
           borderRadius: 2,
           boxShadow: 3,
@@ -150,19 +170,45 @@ export const PoetryGenerator = () => {
         )}
 
         {poem && (
-          <Box
-            sx={{
-              mt: 4,
-              p: 3,
-              bgcolor: "#1e1e1e", // dark paper look
-              borderLeft: "4px solid #90caf9",
-              whiteSpace: "pre-line",
-              fontFamily: "monospace",
-              fontSize: "1rem",
-              lineHeight: 1.6,
-            }}
-          >
-            {poem}
+          <Box sx={{ mt: 3 }}>
+            <TextField
+              name="email"
+              label="Unesi email adresu primaoca"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              fullWidth
+              margin="normal"
+              type="email"
+            />
+
+            <TextField
+              name="name"
+              label="Tvoje ime"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              fullWidth
+              margin="normal"
+            />
+
+            <TextField
+              name="poem"
+              label="Izmijeni poeziju prije slanja"
+              value={editablePoem}
+              onChange={(e) => setEditablePoem(e.target.value)}
+              multiline
+              rows={6}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+            />
+
+            <Button
+              variant="contained"
+              onClick={handleSendEmail}
+              disabled={!email || !editablePoem.trim()}
+            >
+              Pošalji poeziju voljenoj osobi
+            </Button>
           </Box>
         )}
       </Box>
