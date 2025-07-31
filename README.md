@@ -1,69 +1,35 @@
-# React + TypeScript + Vite
+# Bećirator™ — Stihoklepac
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A satirical GPT-powered poetry generator with topics like _pravoslavlje_, _veš mašina_, _Tver_, and _snošaj_. Generates absurdist poems and sends them via email using `mailto:`.
 
-Currently, two official plugins are available:
+## ✨ Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[https://stihoklepac.me](https://stihoklepac.me)
 
-## Expanding the ESLint configuration
+## 📦 Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React + Vite
+- TypeScript
+- MUI (Material UI)
+- OpenAI (via Cloudflare Worker)
+- Deployed on Cloudflare Pages
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🧠 Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- Select up to 5 poetic topics
+- Generates a custom poem using GPT
+- Allows user edits before sending
+- Sends poem via `mailto:` with custom message
+- Retro-styled theme and absurdist tone
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📫 Contact
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Want to collaborate, extend, or abuse the idea?
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+✉️ becirifikacija@gmail.com
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+This is a satirical response to the case of Bećir Vuković, who was controversially awarded Montenegro’s highest state literary prize — the Trinaestojulska nagrada — for a book that had not even been published, through manipulation of the jury and political influence.
+
+---
