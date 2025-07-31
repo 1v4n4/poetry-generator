@@ -41,19 +41,17 @@ export const PoetryGenerator = () => {
     setError(null);
 
     const prompt = generatePrompt(selectedTopics);
+    const workerUrl = import.meta.env.VITE_WORKERER_URL;
 
     try {
-      const res = await fetch(
-        "https://openai-proxy-production.becirifikacija.workers.dev",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: prompt }],
-          }),
-        }
-      );
+      const res = await fetch(workerUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [{ role: "user", content: prompt }],
+        }),
+      });
 
       const data = await res.json();
 
@@ -84,21 +82,22 @@ export const PoetryGenerator = () => {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
+        height: "90vh", // fixed height, not minHeight
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        bgcolor: "background.default", // dark theme aware
+        bgcolor: "background.default",
         color: "text.primary",
-        p: 2,
+        p: 1, // reduce padding from 2 to 1
+        overflow: "auto", // allow scroll only if needed
       }}
     >
       <Box
         sx={{
           width: "100%",
           maxWidth: 720,
-          p: 4,
-          bgcolor: "background.paper", // dark theme aware
+          p: 3, // reduced padding from 4 to 3
+          bgcolor: "background.paper",
           borderRadius: 2,
           boxShadow: 3,
         }}
