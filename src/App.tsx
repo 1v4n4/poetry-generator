@@ -59,9 +59,8 @@ export const PoetryGenerator = () => {
 
       const text = data.choices?.[0]?.message?.content || "Нема резултата";
 
-      setPoem(text);
+      setPoem(text.replace(/\\n/g, "\n").replace(/\\s/g, "\n"));
 
-      // Save to Supabase:
       await savePoem(selectedTopics, text);
     } catch (e) {
       setError(`Грешка у генерисању поезије: ${e}`);
@@ -72,54 +71,91 @@ export const PoetryGenerator = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 600, mx: "auto", mt: 4, p: 2 }}>
-      <Autocomplete
-        multiple
-        options={TOPICS}
-        value={selectedTopics}
-        onChange={(event, newValue) => {
-          if (newValue.length <= MAX_SELECTION) setSelectedTopics(newValue);
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: "background.default", // dark theme aware
+        color: "text.primary",
+        p: 2,
+      }}
+    >
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: 720,
+          p: 4,
+          bgcolor: "background.paper", // dark theme aware
+          borderRadius: 2,
+          boxShadow: 3,
         }}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            variant="outlined"
-            label="Izaberite inspiraciju (maksimalno 5)"
-            placeholder="Teme"
-          />
-        )}
-      />
-      <Button
-        variant="contained"
-        sx={{ mt: 2 }}
-        disabled={loading || selectedTopics.length === 0}
-        onClick={generatePoem}
       >
-        Daj mi pjesmu
-      </Button>
-
-      {loading && <Typography sx={{ mt: 2 }}>Stihoklepac radi...</Typography>}
-
-      {error && (
-        <Typography color="error" sx={{ mt: 2 }}>
-          {error}
+        <Typography variant="h4" align="center" gutterBottom>
+          Bećirator™
         </Typography>
-      )}
 
-      {poem && (
-        <Box
-          sx={{
-            mt: 3,
-            p: 2,
-            bgcolor: "#f5f5f5",
-            borderRadius: 1,
-            whiteSpace: "pre-wrap",
-            fontFamily: "monospace",
+        <Typography variant="subtitle1" align="center" gutterBottom>
+          Odaberi do pet tema i prizovi stihoklepca!
+        </Typography>
+
+        <Autocomplete
+          multiple
+          options={TOPICS}
+          value={selectedTopics}
+          onChange={(event, newValue) => {
+            if (newValue.length <= MAX_SELECTION) setSelectedTopics(newValue);
           }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="outlined"
+              label="Izaberite inspiraciju"
+              placeholder="Teme"
+            />
+          )}
+        />
+
+        <Button
+          variant="contained"
+          fullWidth
+          sx={{ mt: 3 }}
+          disabled={loading || selectedTopics.length === 0}
+          onClick={generatePoem}
         >
-          {poem}
-        </Box>
-      )}
+          Uključi centrifugu
+        </Button>
+
+        {loading && (
+          <Typography align="center" sx={{ mt: 2 }}>
+            Stihovi se sami pišu...
+          </Typography>
+        )}
+
+        {error && (
+          <Typography color="error" sx={{ mt: 2 }}>
+            {error}
+          </Typography>
+        )}
+
+        {poem && (
+          <Box
+            sx={{
+              mt: 4,
+              p: 3,
+              bgcolor: "#1e1e1e", // dark paper look
+              borderLeft: "4px solid #90caf9",
+              whiteSpace: "pre-line",
+              fontFamily: "monospace",
+              fontSize: "1rem",
+              lineHeight: 1.6,
+            }}
+          >
+            {poem}
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };
