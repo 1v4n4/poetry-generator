@@ -141,7 +141,7 @@ export const PoetryGenerator = () => {
             <TextField
               {...params}
               variant="outlined"
-              label="Izaberite inspiraciju"
+              label="Izaberi inspiraciju"
               placeholder="Teme"
             />
           )}
