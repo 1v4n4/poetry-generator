@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import {
   Autocomplete,
   TextField,
+  Link,
   Button,
   Typography,
   Box,
@@ -38,6 +39,7 @@ export const PoetryGenerator = () => {
   const { savePoem } = usePoem();
   const [editablePoem, setEditablePoem] = useState(poem);
   const { increment } = useCount();
+  const [poemId, setPoemId] = useState<number | null>(null);
 
   useEffect(() => {
     setEditablePoem(poem);
@@ -82,7 +84,8 @@ export const PoetryGenerator = () => {
       const text = convertToCyrillic(cleanedText);
       setPoem(text);
 
-      await savePoem(selectedTopics, text);
+      const id = await savePoem(selectedTopics, text);
+      setPoemId(id);
       increment();
     } catch (e) {
       setError(`Грешка у генерисању поезије: ${e}`);
@@ -190,6 +193,32 @@ export const PoetryGenerator = () => {
             disabled={!email || !editablePoem.trim()}
           >
             Pošalji poeziju voljenoj osobi
+          </Button>
+        </Box>
+      )}
+
+      {poemId && (
+        <Box sx={{ my: 8, textAlign: "center" }}>
+          <Typography gutterBottom>
+            Tvoju pjesmu u možeš pronaći na:{" "}
+            <Link
+              href={`/${poemId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              underline="hover"
+              sx={{ fontWeight: "bold" }}
+            >
+              stihoklepac.me/{poemId}
+            </Link>
+          </Typography>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() =>
+              navigator.clipboard.writeText(`https://stihoklepac.me/${poemId}`)
+            }
+          >
+            Kopiraj link
           </Button>
         </Box>
       )}

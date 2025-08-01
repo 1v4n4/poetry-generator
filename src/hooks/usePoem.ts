@@ -7,27 +7,30 @@ const usePoem = (id?: string) => {
   const [error, setError] = useState<string | null>(null);
   const [poem, setPoem] = useState<string | null>(null);
 
-  const savePoem = async (topics: string[], poemText: string) => {
-    setSaving(true);
-    setError(null);
+const savePoem = async (topics: string[], poemText: string) => {
+  setSaving(true);
+  setError(null);
 
-    const { error } = await supabase.from("poems").insert([
+  const { data, error } = await supabase
+    .from("poems")
+    .insert([
       {
         topics,
         poem: poemText,
         created_at: new Date().toISOString(),
       },
-    ]);
+    ])
+    .select("serial_id")
 
-    setSaving(false);
+  setSaving(false);
 
-    if (error) {
-      setError(error.message);
-      return false;
-    }
+  if (error || !data || data.length === 0) {
+    setError(error?.message || "No data returned");
+    return false;
+  }
 
-    return true;
-  };
+  return data[0].serial_id;
+};
 
   useEffect(() => {
     if (!id) return;
