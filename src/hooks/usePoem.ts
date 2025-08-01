@@ -1,13 +1,5 @@
 import { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = import.meta.env.VITE_SUPA_URL;
-const supabaseKey = import.meta.env.VITE_SUPA_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error("Supabase URL and Key must be defined in environment variables.");
-}
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from "../lib/supa";
 
 export const useSavePoem = () => {
   const [saving, setSaving] = useState(false);
