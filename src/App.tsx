@@ -9,6 +9,7 @@ import {
 import { useSavePoem } from "./hooks/usePoem";
 import { generatePrompt } from "./helper";
 import ShareBlock from "./components/ShareBlock";
+import { convertToCyrillic } from "./helper";
 
 const TOPICS = [
   "pravoslavlje",
@@ -44,10 +45,10 @@ export const PoetryGenerator = () => {
   const handleSendEmail = () => {
     if (!email) return alert("Unesite email adresu");
     if (!editablePoem) return alert("Morate generisati poeziju.");
-
+    const inCyrillic = convertToCyrillic(editablePoem);
     const subject = encodeURIComponent("Bećirova poezija za tebe");
     const body = encodeURIComponent(
-      `Ljubavi\n\nNeka ti poezija uljepša dan:\n\n${editablePoem}\n\nIz dubine duše,\n${name}\n\n\n Posjeti stihoklepac.me i sastavi svoje stihove!`
+      `Ljubavi\n\nNeka ti poezija uljepša dan:\n\n${inCyrillic}\n\nIz dubine duše,\n${name}\n\n\n Posjeti stihoklepac.me i sastavi svoje stihove!`
     );
 
     window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
@@ -75,9 +76,10 @@ export const PoetryGenerator = () => {
 
       const data = await res.json();
 
-      const text = data.choices?.[0]?.message?.content || "Нема резултата";
-
-      setPoem(text.replace(/\\n/g, "\n").replace(/\\s/g, "\n"));
+      const rawText = data.choices?.[0]?.message?.content || "Нема резултата";
+      const cleanedText = rawText.replace(/\\n/g, "\n").replace(/\\s/g, "\n");
+      const text = convertToCyrillic(cleanedText);
+      setPoem(text);
 
       await savePoem(selectedTopics, text);
     } catch (e) {
@@ -201,6 +203,7 @@ export const PoetryGenerator = () => {
               fullWidth
               margin="normal"
               variant="outlined"
+              helperText="Biće automatski konvertovano u ćirilicu"
             />
 
             <Button
