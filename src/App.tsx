@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useSavePoem } from "./hooks/usePoem";
 import { generatePrompt } from "./helper";
+import ShareBlock from "./components/ShareBlock";
 
 const TOPICS = [
   "pravoslavlje",
@@ -211,6 +212,12 @@ export const PoetryGenerator = () => {
             </Button>
           </Box>
         )}
+
+        <ShareBlock
+          title="Direktno iz veš mašine"
+          text={poem || "Generiši svoje Bećir-stihove:"}
+          url={window.location.href}
+        />
       </Box>
     </Box>
   );
