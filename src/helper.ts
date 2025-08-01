@@ -1,5 +1,5 @@
 export const generatePrompt = (topics: string[]) => {
-    const prompt = `Bećir Vuković is a controversial poet who received a Montenegrin state award, despite his publicly stated opposition to Montenegrin statehood and national identity. Ironically, the book for which he received the award hadn't even been published at the time. It has since been released and has gone viral online. His poetry blends themes of love, patriotism (including Serbian identity, Orthodoxy, and Russia), and overt sensuality. Below are five examples of his work:
+    const prompt = `Bećir Vuković is a controversial poet who received a Montenegrin state award, despite his publicly stated opposition to Montenegrin statehood and national identity. Ironically, the book for which he received the award hadn't even been published at the time. It has since been released and has gone viral online. His poetry blends themes of love, patriotism (including Serbian identity, Orthodoxy, and Russia), and overt sensuality. Below are five examples of his work )those are five diferent whole songs):
       нема сношaја
       као на веш машини
       док је центрифуга
@@ -24,7 +24,7 @@ export const generatePrompt = (topics: string[]) => {
         девојчица свира на виолини
         Русијо
         теби и треба толика пространост
-      Write a ‘poem’ in the style of Bećir Vuković, using Serbian Cyrillic and Ekavian dialect. The poem should have **a minimum of five lines and a maximum of eight**. Each line (verse) should be no more than **six words long**. In Serbian. Ideally, mimic the form of one of the example poems above. Add a new line after every verse. You can use the following themes: ${topics.join(
+      Write a ‘poem’ in the style of Bećir Vuković, using Serbian Cyrillic and Ekavian dialect. The poem should have a minimum of five lines and a maximum of eight. Each line (verse) should be one to five words long. In Serbian. Ideally, mimic the form of one of the example poems above. Add a new line after every verse. You can use the following themes: ${topics.join(
     ", "
   )}.
   `;
