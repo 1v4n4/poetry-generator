@@ -29,7 +29,8 @@
     "paths": {
       "components/*": ["components/*"],
       "lib/*": ["lib/*"],
-      "stores/*": ["stores/*"]
+      "stores/*": ["stores/*"],
+      "hooks/*": ["hooks/*"],
     }
   },
   "include": ["src"]

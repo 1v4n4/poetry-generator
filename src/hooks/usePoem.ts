@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { supabase } from "../lib/supa";
 
-export const useSavePoem = () => {
+const usePoem = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,3 +29,5 @@ export const useSavePoem = () => {
 
   return { savePoem, saving, error };
 };
+
+export default usePoem;

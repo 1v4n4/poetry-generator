@@ -6,10 +6,9 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { useSavePoem } from "hooks/usePoem";
-import { generatePrompt } from "helper";
+import usePoem from "hooks/usePoem";
+import { generatePrompt, convertToCyrillic } from "../helper";
 import ShareBlock from "components/ShareBlock";
-import { convertToCyrillic } from "helper";
 import { useCount } from "stores/counter";
 
 const TOPICS = [
@@ -36,7 +35,7 @@ export const PoetryGenerator = () => {
   const [error, setError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const { savePoem } = useSavePoem();
+  const { savePoem } = usePoem();
   const [editablePoem, setEditablePoem] = useState(poem);
   const { increment } = useCount();
 
