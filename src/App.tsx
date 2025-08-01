@@ -1,4 +1,4 @@
-import { ThemeProvider, CssBaseline, Box } from "@mui/material";
+import { ThemeProvider, CssBaseline } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 import dark from "./theme";
 import Header from "components/Header";

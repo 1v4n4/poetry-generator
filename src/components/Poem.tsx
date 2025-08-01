@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
-import { Container, Typography, CircularProgress } from "@mui/material";
+import { Typography, CircularProgress } from "@mui/material";
 import usePoem from "hooks/usePoem";
 
 const Poem = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { poem, loading, error } = usePoem(+id);
-  if (!id) return <Typography variant="h6">404</Typography>;
+  const poemId = id ? +id : undefined;
+  const { poem, loading, error } = usePoem(poemId);
   return (
     <>
       {loading && <CircularProgress />}
