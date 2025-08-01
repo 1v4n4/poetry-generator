@@ -10,6 +10,7 @@ import { useSavePoem } from "./hooks/usePoem";
 import { generatePrompt } from "./helper";
 import ShareBlock from "./components/ShareBlock";
 import { convertToCyrillic } from "./helper";
+import { useCount } from "./store/counter";
 
 const TOPICS = [
   "pravoslavlje",
@@ -37,6 +38,7 @@ export const PoetryGenerator = () => {
   const [name, setName] = useState("");
   const { savePoem } = useSavePoem();
   const [editablePoem, setEditablePoem] = useState(poem);
+  const { increment } = useCount();
 
   useEffect(() => {
     setEditablePoem(poem);
@@ -82,6 +84,7 @@ export const PoetryGenerator = () => {
       setPoem(text);
 
       await savePoem(selectedTopics, text);
+      increment();
     } catch (e) {
       setError(`Грешка у генерисању поезије: ${e}`);
       setPoem("");
@@ -105,7 +108,7 @@ export const PoetryGenerator = () => {
   return (
     <Box
       sx={{
-        height: "90vh",
+        height: "80vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
