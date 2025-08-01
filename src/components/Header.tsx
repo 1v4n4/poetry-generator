@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Typography } from "@mui/material";
-import { useCount } from "../store/counter";
+import { useCount } from "stores/counter";
 import { useEffect } from "react";
 
 const Header = () => {

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { supabase } from "../lib/supa";
+import { supabase } from "lib/supa";
 
 interface CountState {
   count: number | null;
