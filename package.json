@@ -15,7 +15,6 @@
     "@mui/material": "^7.2.0",
     "@supabase/supabase-js": "^2.53.0",
     "dotenv": "^17.2.1",
-    "dxid": "^2.2.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.7.1",

@@ -95,123 +95,110 @@ export const PoetryGenerator = () => {
   return (
     <Box
       sx={{
-        height: "80vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        bgcolor: "background.default",
-        color: "text.primary",
-        p: 1,
-        overflow: "auto",
+        width: "100%",
+        maxWidth: 720,
+        p: 3,
+        bgcolor: "background.paper",
+        borderRadius: 2,
+        boxShadow: 3,
       }}
     >
-      <Box
-        sx={{
-          width: "100%",
-          maxWidth: 720,
-          p: 3,
-          bgcolor: "background.paper",
-          borderRadius: 2,
-          boxShadow: 3,
+      <Typography variant="h4" align="center" gutterBottom>
+        Bećirator™
+      </Typography>
+
+      <Typography variant="subtitle1" align="center" gutterBottom>
+        Odaberi do pet tema i prizovi stihoklepca!
+      </Typography>
+
+      <Autocomplete
+        multiple
+        options={TOPICS}
+        value={selectedTopics}
+        onChange={(_, newValue) => {
+          if (newValue.length <= MAX_SELECTION) setSelectedTopics(newValue);
         }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="outlined"
+            label="Izaberi inspiraciju"
+            placeholder="Teme"
+          />
+        )}
+      />
+
+      <Button
+        variant="contained"
+        fullWidth
+        sx={{ mt: 3 }}
+        disabled={loading || selectedTopics.length === 0}
+        onClick={generatePoem}
       >
-        <Typography variant="h4" align="center" gutterBottom>
-          Bećirator™
+        Uključi centrifugu
+      </Button>
+
+      {loading && (
+        <Typography align="center" sx={{ mt: 2 }}>
+          Stihovi se sami pišu...
         </Typography>
+      )}
 
-        <Typography variant="subtitle1" align="center" gutterBottom>
-          Odaberi do pet tema i prizovi stihoklepca!
+      {error && (
+        <Typography color="error" sx={{ mt: 2 }}>
+          {error}
         </Typography>
+      )}
 
-        <Autocomplete
-          multiple
-          options={TOPICS}
-          value={selectedTopics}
-          onChange={(_, newValue) => {
-            if (newValue.length <= MAX_SELECTION) setSelectedTopics(newValue);
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="outlined"
-              label="Izaberi inspiraciju"
-              placeholder="Teme"
-            />
-          )}
-        />
+      {poem && (
+        <Box sx={{ mt: 3 }}>
+          <TextField
+            name="email"
+            label="Unesi email adresu primaoca"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+            margin="normal"
+            type="email"
+          />
 
-        <Button
-          variant="contained"
-          fullWidth
-          sx={{ mt: 3 }}
-          disabled={loading || selectedTopics.length === 0}
-          onClick={generatePoem}
-        >
-          Uključi centrifugu
-        </Button>
+          <TextField
+            name="name"
+            label="Tvoje ime"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
 
-        {loading && (
-          <Typography align="center" sx={{ mt: 2 }}>
-            Stihovi se sami pišu...
-          </Typography>
-        )}
+          <TextField
+            name="poem"
+            label="Izmijeni poeziju prije slanja"
+            value={editablePoem}
+            onChange={(e) => setEditablePoem(e.target.value)}
+            multiline
+            rows={6}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            helperText="Biće automatski konvertovano u ćirilicu"
+          />
 
-        {error && (
-          <Typography color="error" sx={{ mt: 2 }}>
-            {error}
-          </Typography>
-        )}
+          <Button
+            variant="contained"
+            onClick={handleSendEmail}
+            disabled={!email || !editablePoem.trim()}
+          >
+            Pošalji poeziju voljenoj osobi
+          </Button>
+        </Box>
+      )}
 
-        {poem && (
-          <Box sx={{ mt: 3 }}>
-            <TextField
-              name="email"
-              label="Unesi email adresu primaoca"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              fullWidth
-              margin="normal"
-              type="email"
-            />
-
-            <TextField
-              name="name"
-              label="Tvoje ime"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              fullWidth
-              margin="normal"
-            />
-
-            <TextField
-              name="poem"
-              label="Izmijeni poeziju prije slanja"
-              value={editablePoem}
-              onChange={(e) => setEditablePoem(e.target.value)}
-              multiline
-              rows={6}
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              helperText="Biće automatski konvertovano u ćirilicu"
-            />
-
-            <Button
-              variant="contained"
-              onClick={handleSendEmail}
-              disabled={!email || !editablePoem.trim()}
-            >
-              Pošalji poeziju voljenoj osobi
-            </Button>
-          </Box>
-        )}
-
-        <ShareBlock
-          title="Direktno iz veš mašine"
-          text={poem || "Generiši svoje Bećir-stihove:"}
-          url={window.location.href}
-        />
-      </Box>
+      <ShareBlock
+        title="Direktno iz veš mašine"
+        text={poem || "Generiši svoje Bećir-stihove:"}
+        url={window.location.href}
+      />
     </Box>
   );
 };
