@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import usePoem from "hooks/usePoem";
+import ShareBlock from "components/ShareBlock";
+import CampaignIcon from "@mui/icons-material/Campaign";
 
 const Poem = () => {
   const { id } = useParams<{ id: string }>();
@@ -37,63 +39,107 @@ const Poem = () => {
     setDialogOpen(false);
   };
 
+  if (loading) return <CircularProgress />;
+  if (error) return <Typography color="error">{error}</Typography>;
+  if (!poem) return null;
+
   return (
-    <Box sx={{ maxWidth: 720, mx: "auto", p: 3 }}>
-      {loading && <CircularProgress />}
-      {!loading && error && <Typography color="error">{error}</Typography>}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "80vh",
+        maxWidth: 720,
+        mx: "auto",
+        px: 3,
+        py: 6,
+      }}
+    >
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        {loading && <CircularProgress />}
+        {!loading && error && <Typography color="error">{error}</Typography>}
 
-      {!loading && poem && (
-        <>
-          <Typography variant="body1" sx={{ whiteSpace: "pre-line", mb: 2 }}>
-            {poem}
-          </Typography>
+        {!loading && poem && (
+          <>
+            <Typography variant="h5" sx={{ whiteSpace: "pre-line", mb: 2 }}>
+              {poem}
+            </Typography>
 
-          <Box sx={{ textAlign: "right" }}>
-            <IconButton
-              onClick={() => setDialogOpen(true)}
-              title="Pošalji emailom"
-            >
-              <SendIcon />
-            </IconButton>
-          </Box>
-
-          <Dialog
-            open={dialogOpen}
-            onClose={() => setDialogOpen(false)}
-            maxWidth="sm"
-            fullWidth
-          >
-            <DialogTitle>Pošalji pjesmu</DialogTitle>
-            <DialogContent>
-              <TextField
-                label="Email primaoca"
-                fullWidth
-                type="email"
-                margin="normal"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <TextField
-                label="Tvoje ime"
-                fullWidth
-                margin="normal"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={() => setDialogOpen(false)}>Otkaži</Button>
-              <Button
-                variant="contained"
-                onClick={handleSendEmail}
-                disabled={!email || !poem.trim()}
+            <Box sx={{ textAlign: "right" }}>
+              <IconButton
+                onClick={() => setDialogOpen(true)}
+                title="Pošalji emailom"
               >
-                Pošalji
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </>
-      )}
+                <SendIcon />
+              </IconButton>
+            </Box>
+
+            <Dialog
+              open={dialogOpen}
+              onClose={() => setDialogOpen(false)}
+              maxWidth="sm"
+              fullWidth
+            >
+              <DialogTitle>Pošalji pjesmu</DialogTitle>
+              <DialogContent>
+                <TextField
+                  label="Email primaoca"
+                  fullWidth
+                  type="email"
+                  margin="normal"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <TextField
+                  label="Tvoje ime"
+                  fullWidth
+                  margin="normal"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setDialogOpen(false)}>Otkaži</Button>
+                <Button
+                  variant="contained"
+                  onClick={handleSendEmail}
+                  disabled={!email || !poem.trim()}
+                >
+                  Pošalji
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </>
+        )}
+      </Box>
+
+      <Box sx={{ mt: 6, textAlign: "center" }}>
+        <Typography
+          variant="h6"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 1,
+            mb: 1,
+          }}
+        >
+          <CampaignIcon sx={{ color: "text.primary" }} />
+          Podijeli svoju poeziju sa svijetom
+        </Typography>
+        <ShareBlock
+          title="Direktno iz veš mašine"
+          text={poem || "Generiši svoje Bećir-stihove:"}
+          url={window.location.href}
+        />
+      </Box>
     </Box>
   );
 };
