@@ -45,19 +45,19 @@ export const ShareBlock = ({ title, text, url }: ShareBlockProps) => {
   return (
     <Box mt={3} display="flex" justifyContent="center" gap={2}>
       <Box mt={2} display="flex" gap={1}>
-        <FacebookShareButton url={url} title={text}>
+        <FacebookShareButton url={url} title={text + "\n"}>
           <FacebookIcon size={32} round />
         </FacebookShareButton>
 
-        <TwitterShareButton url={url} title={text}>
+        <TwitterShareButton url={url} title={text + "\n"}>
           <TwitterIcon size={32} round />
         </TwitterShareButton>
 
-        <TelegramShareButton url={url} title={text}>
+        <TelegramShareButton url={url} title={text + "\n"}>
           <TelegramIcon size={32} round />
         </TelegramShareButton>
 
-        <WhatsappShareButton url={url} title={text}>
+        <WhatsappShareButton url={url} title={text + "\n"}>
           <WhatsappIcon size={32} round />
         </WhatsappShareButton>
       </Box>

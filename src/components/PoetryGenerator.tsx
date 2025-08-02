@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Autocomplete,
   TextField,
-  Link,
+  Tooltip,
   Button,
   Typography,
   Box,
+  Paper,
 } from "@mui/material";
 import usePoem from "hooks/usePoem";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { generatePrompt, convertToCyrillic } from "../helper";
 import ShareBlock from "components/ShareBlock";
 import { useCount } from "stores/counter";
@@ -34,28 +36,10 @@ export const PoetryGenerator = () => {
   const [poem, setPoem] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const { savePoem } = usePoem();
-  const [editablePoem, setEditablePoem] = useState(poem);
-  const { increment } = useCount();
   const [poemId, setPoemId] = useState<number | null>(null);
 
-  useEffect(() => {
-    setEditablePoem(poem);
-  }, [poem]);
-
-  const handleSendEmail = () => {
-    if (!email) return alert("Unesite email adresu");
-    if (!editablePoem) return alert("Morate generisati poeziju.");
-    const inCyrillic = convertToCyrillic(editablePoem);
-    const subject = encodeURIComponent("Bećirova poezija za tebe");
-    const body = encodeURIComponent(
-      `Ljubavi\n\nNeka ti poezija uljepša dan:\n\n${inCyrillic}\n\nIz dubine duše,\n${name}\n\n\n Posjeti stihoklepac.me i sastavi svoje stihove!`
-    );
-
-    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-  };
+  const { savePoem } = usePoem();
+  const { increment } = useCount();
 
   const generatePoem = async () => {
     if (selectedTopics.length === 0) return;
@@ -78,12 +62,11 @@ export const PoetryGenerator = () => {
       });
 
       const data = await res.json();
-
       const rawText = data.choices?.[0]?.message?.content || "Нема резултата";
       const cleanedText = rawText.replace(/\\n/g, "\n").replace(/\\s/g, "\n");
       const text = convertToCyrillic(cleanedText);
-      setPoem(text);
 
+      setPoem(text);
       const id = await savePoem(selectedTopics, text);
       setPoemId(id);
       increment();
@@ -154,78 +137,57 @@ export const PoetryGenerator = () => {
       )}
 
       {poem && (
-        <Box sx={{ mt: 3 }}>
-          <TextField
-            name="email"
-            label="Unesi email adresu primaoca"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            fullWidth
-            margin="normal"
-            type="email"
-          />
-
-          <TextField
-            name="name"
-            label="Tvoje ime"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            fullWidth
-            margin="normal"
-          />
-
-          <TextField
-            name="poem"
-            label="Izmijeni poeziju prije slanja"
-            value={editablePoem}
-            onChange={(e) => setEditablePoem(e.target.value)}
-            multiline
-            rows={6}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            helperText="Biće automatski konvertovano u ćirilicu"
-          />
-
-          <Button
-            variant="contained"
-            onClick={handleSendEmail}
-            disabled={!email || !editablePoem.trim()}
-          >
-            Pošalji poeziju voljenoj osobi
-          </Button>
-        </Box>
+        <Paper
+          elevation={1}
+          sx={{
+            whiteSpace: "pre-wrap",
+            mt: 3,
+            p: 2,
+            fontFamily: "monospace",
+            fontSize: 16,
+            borderRadius: 1,
+            minHeight: 150,
+          }}
+        >
+          {poem}
+        </Paper>
       )}
 
       {poemId && (
-        <Box sx={{ my: 8, textAlign: "center" }}>
-          <Typography gutterBottom>
-            Tvoju pjesmu u možeš pronaći na:{" "}
-            <Link
-              href={`/${poemId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              underline="hover"
-              sx={{ fontWeight: "bold" }}
-            >
-              stihoklepac.me/{poemId}
-            </Link>
+        <Box
+          sx={{
+            mt: 4,
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ maxWidth: 360 }}
+          >
+            <InfoOutlinedIcon
+              fontSize="small"
+              sx={{ verticalAlign: "middle" }}
+            />
+            Klikom dobijaš svoj jedinstveni link koji možeš dijeliti i sačuvati
+            za kasnije.{" "}
           </Typography>
           <Button
-            size="small"
-            variant="outlined"
-            onClick={() =>
-              navigator.clipboard.writeText(`https://stihoklepac.me/${poemId}`)
-            }
+            variant="contained"
+            onClick={() => window.open(`/${poemId}`, "_blank")}
           >
-            Kopiraj link
+            Prikaži moju pjesmu
           </Button>
         </Box>
       )}
 
       <ShareBlock
-        title="Direktno iz veš mašine"
-        text={poem || "Generiši svoje Bećir-stihove:"}
+        title="Sihovi iz veš mašine"
+        text={"Bećirator: I ti možeš biti pesnik!"}
         url={window.location.href}
       />
     </Box>
