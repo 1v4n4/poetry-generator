@@ -1,7 +1,15 @@
 {
   "name": "becirogenator",
   "private": true,
-  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1v4n4/poetry-generator"
+  },
+  "bugs": {
+    "url": "https://github.com/1v4n4/poetry-generator/issues"
+  },
+  "homepage": "stihoklepac.me",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
