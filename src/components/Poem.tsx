@@ -109,7 +109,7 @@ const Poem = () => {
                 maxWidth="sm"
                 fullWidth
               >
-                <DialogTitle>Pošalji pjesmu</DialogTitle>
+                <DialogTitle>Pošalji pjesmu elektronskom poštom</DialogTitle>
                 <DialogContent>
                   <TextField
                     label="Email primaoca"
