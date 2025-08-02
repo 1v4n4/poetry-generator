@@ -29,7 +29,7 @@ const Header = () => {
               </span>
             }
           >
-            <Typography variant="body1" color="textPrimary">
+            <Typography variant="h6" color="textPrimary">
               📜 Do sada je sastavljeno {count} pjesama
             </Typography>
           </Tooltip>
