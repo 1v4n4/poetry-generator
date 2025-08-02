@@ -1,24 +1,14 @@
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Tooltip,
-  Link,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { AppBar, Toolbar, IconButton } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import { useNavigate } from "react-router-dom";
 import { useCount } from "stores/counter";
 import { useEffect } from "react";
+import PoemCount from "./PoemCount";
+import HeaderInfo from "./HeaderInfo";
 
 const Header = () => {
   const { count, fetchCount } = useCount();
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     fetchCount();
@@ -38,48 +28,10 @@ const Header = () => {
         </IconButton>
 
         {/* Center: Poem Count */}
-        {count !== null &&
-          (isSmall ? (
-            <Tooltip title={`📜 Do sada je sastavljeno ${count} pjesama`}>
-              <Typography
-                variant="h6"
-                color="textPrimary"
-                sx={{ textAlign: "center", flexGrow: 1, cursor: "default" }}
-              >
-                📜 {count}
-              </Typography>
-            </Tooltip>
-          ) : (
-            <Typography
-              variant="h6"
-              color="textPrimary"
-              sx={{ textAlign: "center", flexGrow: 1 }}
-            >
-              📜 Do sada je sastavljeno {count} pjesama
-            </Typography>
-          ))}
+        {count !== null && <PoemCount count={count} />}
 
         {/* Right: Info Icon with Tooltip */}
-        <Tooltip
-          title={
-            <span>
-              Čitaj pjesme dodajući cifre na kraj adrese. Broj mora biti manji
-              od ukupnog broja pjesama, npr:{" "}
-              <Link
-                href="https://stihoklepac.me/31"
-                target="_blank"
-                rel="noopener noreferrer"
-                underline="hover"
-              >
-                stihoklepac.me/31
-              </Link>
-            </span>
-          }
-        >
-          <IconButton size="large">
-            <InfoOutlinedIcon />
-          </IconButton>
-        </Tooltip>
+        <HeaderInfo />
       </Toolbar>
     </AppBar>
   );
