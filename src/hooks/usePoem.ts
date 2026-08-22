@@ -6,6 +6,7 @@ const usePoem = (id?: number) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [poem, setPoem] = useState<string | null>(null);
+  const [topics, setTopics] = useState<string[] | null>(null);
 
 const savePoem = async (topics: string[], poemText: string) => {
   setSaving(true);
@@ -39,15 +40,17 @@ const savePoem = async (topics: string[], poemText: string) => {
       setLoading(true);
       const { data, error } = await supabase
         .from("poems")
-        .select("poem")
+        .select("poem, topics")
         .eq("serial_id", id)
         .single();
 
       if (error) {
         setError("Pjesma nije nađena.");
         setPoem(null);
+        setTopics(null);
       } else {
         setPoem(data.poem);
+        setTopics(data.topics ?? null);
       }
 
       setLoading(false);
@@ -58,6 +61,7 @@ const savePoem = async (topics: string[], poemText: string) => {
 
   return {
     poem,
+    topics,
     savePoem,
     saving,
     loading,

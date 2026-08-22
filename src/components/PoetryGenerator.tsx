@@ -194,6 +194,17 @@ export const PoetryGenerator = () => {
             </Button>
           </Box>
         )}
+
+        <Typography
+          variant="body2"
+          align="center"
+          color="text.secondary"
+          sx={{ mt: 3, maxWidth: 480, mx: "auto" }}
+        >
+          AI generator poezije inspirisan Bećirom Vukovićem — pjesnikom
+          nagrađenim Trinaestojulskom nagradom za knjigu koja u trenutku
+          dodjele nije bila ni objavljena.
+        </Typography>
       </Box>
       <Box sx={{ mt: 6, textAlign: "center" }}>
         <ShareBlock

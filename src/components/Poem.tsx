@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import {
   Box,
   Typography,
@@ -22,8 +23,18 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 const Poem = () => {
   const { id } = useParams<{ id: string }>();
   const poemId = id ? +id : undefined;
-  const { poem, loading, error } = usePoem(poemId);
+  const { poem, topics, loading, error } = usePoem(poemId);
   const [copied, setCopied] = useState(false);
+
+  const pageTitle = topics?.length
+    ? `Bećirator - poezija o: ${topics.join(", ")}`
+    : "Bećirator – AI poetry generator";
+  const pageDescription = poem
+    ? `AI poezija u stilu Bećira Vukovića: „${poem.slice(0, 140)}${
+        poem.length > 140 ? "…" : ""
+      }“`
+    : "AI generisana poezija u stilu Bećira Vukovića.";
+  const pageUrl = poemId ? `https://stihoklepac.me/${poemId}` : undefined;
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -35,7 +46,7 @@ const Poem = () => {
 
     const subject = encodeURIComponent("Bećirova poezija za tebe");
     const body = encodeURIComponent(
-      `Ljubavi\n\nNeka ti poezija uljepša dan:\n\n${poem}\n\nIz dubine duše,\n${name}\n\n\n---\nPosjeti stihoklepac.me, Bećirator će i tebi generisati stihove!`
+      `Ljubavi\n\nNeka ti poezija uljepša dan:\n\n${poem}\n\nIz dubine duše,\n${name}\n\n\n---\nPosjeti stihoklepac.me, Bećirator će i tebi generisati stihove!`,
     );
 
     window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
@@ -58,6 +69,17 @@ const Poem = () => {
         py: 6,
       }}
     >
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        {pageUrl && <link rel="canonical" href={pageUrl} />}
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        {pageUrl && <meta property="og:url" content={pageUrl} />}
+        <meta property="twitter:title" content={pageTitle} />
+        <meta property="twitter:description" content={pageDescription} />
+      </Helmet>
+
       <Box
         sx={{
           flexGrow: 1,
@@ -87,7 +109,7 @@ const Poem = () => {
               <IconButton
                 onClick={() => {
                   navigator.clipboard.writeText(
-                    `https://stihoklepac.me/${poemId}`
+                    `https://stihoklepac.me/${poemId}`,
                   );
                   setCopied(true);
                 }}
