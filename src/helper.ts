@@ -89,6 +89,7 @@ export const generatePrompt = (topics: string[]) => {
       Write a ‘poem’ in the style of Bećir Vuković, using Serbian Cyrillic and Ekavian dialect. The poem should have a minimum of five lines and a maximum of eight. Each line (verse) should be one to five words long. In Serbian. Ideally, mimic the form of one of the example poems above. Add a new line after every verse. Write the entire poem only using Cyrillic letters from the Serbian Cyrillic alphabet, no Latin letters or characters that look similar. You can use the following themes: ${topics.join(
     ", "
   )}.
+  Output ONLY the poem itself, in Cyrillic. Do not include any introduction, explanation, commentary, translation, or code fences before or after it.
   `;
   return prompt;
 };
