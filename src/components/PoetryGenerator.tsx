@@ -6,6 +6,7 @@ import {
   Typography,
   Box,
   Paper,
+  LinearProgress,
 } from "@mui/material";
 import usePoem from "hooks/usePoem";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -135,9 +136,12 @@ export const PoetryGenerator = () => {
         </Button>
 
         {loading && (
-          <Typography align="center" sx={{ mt: 2 }}>
-            Stihovi se sami pišu...
-          </Typography>
+          <Box sx={{ mt: 2 }}>
+            <Typography align="center" sx={{ mb: 1 }}>
+              Stihovi se sami pišu...
+            </Typography>
+            <LinearProgress />
+          </Box>
         )}
 
         {error && (
